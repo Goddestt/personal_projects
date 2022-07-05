@@ -1,1 +1,30 @@
-<%= @user.name %>
+<div class="container">
+  User avatar: <%= image_tag(@user.avatar , width: "25%") if !@user.avatar.blank? %>
+  <p class="text-start">
+    <span>Name:</span>
+    <span> <%= @user.name %> </span>
+  </p>
+  <p class="text-start">
+    <span>Address:</span>
+    <span> <%= @user.address %> </span>
+  </p>
+  <p class="text-start">
+    <span>Phone Number:</span>
+    <span> <%= @user.phone_number %> </span>
+  </p>
+  <% @user.images.each_with_index do |image, index| %>
+    <p> picture <%= index + 1 %> : </p>
+    <%= image_tag(image) %>
+  <% end %>
+</div>
+<style>
+  .text-start {
+    font-size: 20px;
+    color: blue;
+  }
+  span {
+    display: table-cell;
+    padding: 5px;
+    width: 10rem;
+  }
+</style>

@@ -1,4 +1,7 @@
-<%= user.phone_number %>
-<p> some user detail </p>
-<span> <%= link_to "Show user", user %> </span>
-<span> <%= link_to "Show user", edit_user_path(user) %> </span>
+<tr class="column">
+  <td><%= user.name %></td>
+  <td> <%= link_to "Show user", user %> </td>
+  <td> <%= link_to "Edit user", edit_user_path(user) %> </td>
+  <td> <%= link_to 'Delete', user_path(user),
+  data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'} %> </td>
+</tr>

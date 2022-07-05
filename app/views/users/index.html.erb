@@ -1,5 +1,10 @@
 <p> Một dự án nho nhỏ </p>
-<%= render partial: "user", collection: @users %>
+<button type="button" class="btn"> <%= link_to "New user", new_user_path %> </button>
+<div class="container">
+  <table class="table">
+    <%= render partial: "user", collection: @users %>
+  </table>
+</div>
 <% if !@errors.blank? %>
   <%= @errors %>
 <% end %>

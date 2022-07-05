@@ -1,5 +1,4 @@
 <div class="container">
-  <%= image_tag(@user.avatar , width: "20%") if !@user.avatar.blank? %>
   <%= bootstrap_form_for(@user) do |form| %>
     <div class="input-group mb-3">
       <%= form.text_field :name %>
@@ -9,10 +8,6 @@
     </div>
     <%= form.file_field :images %>
     <%= form.file_field :avatar %>
-    <% @user.images.each_with_index do |image, index| %>
-      <p> picture <%= index + 1 %> : </p>
-      <%= image_tag(image) %>
-    <% end %>
     <button type="submit" class="btn btn-primary">Submit</button>
   <% end %>
 </div>
