@@ -1,0 +1,5 @@
+<p> Một dự án nho nhỏ </p>
+<%= render partial: "user", collection: @users %>
+<% if !@errors.blank? %>
+  <%= @errors %>
+<% end %>
