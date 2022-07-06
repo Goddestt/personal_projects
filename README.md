@@ -10,6 +10,11 @@ Run: bundle install
 ### Step 2:
 Run: yarn
 
-### Step 2
+### Step 3
+Run:
+rails db:create
+rails db:migrate
+
+### Step 4
 Run: rails server
 
