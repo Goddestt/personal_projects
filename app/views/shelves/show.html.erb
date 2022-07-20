@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @shelf %>
+
+<div>
+  <%= link_to "Edit this shelf", edit_shelf_path(@shelf) %> |
+  <%= link_to "Back to shelves", shelves_path %>
+
+  <%= button_to "Destroy this shelf", @shelf, method: :delete %>
+</div>

@@ -16,6 +16,7 @@
     <p> picture <%= index + 1 %> : </p>
     <%= image_tag(image) %>
   <% end %>
+  <%= link_to "Show books", user_books_path(@user) %>
 </div>
 <style>
   .text-start {

@@ -1,0 +1,18 @@
+<%= @user.name %>
+<button type="button" class="btn"> <%= link_to "New book", new_user_book_path %> </button>
+<div class="container">
+  <table class="table">
+    <% @books.each do |book| %>
+      <tr class="column">
+        <td><%= book.name %></td>
+        <td> <%= link_to "Show book", user_book_path(@user, book) %> </td>
+        <td> <%= link_to "Edit book", edit_user_book_path(@user, book) %> </td>
+        <td> <%= link_to 'Delete', user_book_path(@user, book),
+          data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'} %> </td>
+      </tr>
+    <% end %>
+  </table>
+</div>
+<% if !@errors.blank? %>
+  <%= @errors %>
+<% end %>

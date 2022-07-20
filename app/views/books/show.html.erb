@@ -1,0 +1,32 @@
+<div class="container">
+  Book cover image: <%= image_tag(@book.cover_image , width: "20%") if !@book.cover_image.blank? %>
+
+  <p class="text-start">
+    <span>Name:</span>
+    <span> <%= @book.name %> </span>
+  </p>
+  <p class="text-start">
+    <span>Author:</span>
+    <span> <%= @book.author %> </span>
+  </p>
+  <p class="text-start">
+    <span>Price:</span>
+    <span> <%= @book.price %> </span>
+  </p>
+  <p class="text-start">
+    <span>Barcode:</span>
+    <span> <%= @book.barcode %> </span>
+  </p>
+</div>
+
+<style>
+  .text-start {
+    font-size: 20px;
+    color: blue;
+  }
+  span {
+    display: table-cell;
+    padding: 5px;
+    width: 10rem;
+  }
+</style>

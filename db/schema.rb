@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_05_032705) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_20_072006) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -39,7 +39,74 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_05_032705) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "addresses", force: :cascade do |t|
+    t.string "detail"
+    t.string "street"
+    t.string "district"
+    t.string "city"
+    t.boolean "main"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "staff_id"
+    t.integer "user_id"
+  end
+
+  create_table "bill_details", force: :cascade do |t|
+    t.integer "bill_id"
+    t.integer "book_id"
+    t.float "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "bills", force: :cascade do |t|
+    t.integer "staff_id"
+    t.integer "user_id"
+    t.float "discount"
+    t.float "total_price"
+    t.float "actual_price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "books", force: :cascade do |t|
+    t.string "name"
+    t.string "barcode"
+    t.string "author"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "belonger_type"
+    t.integer "belonger_id"
+    t.datetime "returned_date"
+    t.text "description"
+  end
+
+  create_table "computers", force: :cascade do |t|
+    t.string "place"
+    t.boolean "in_used"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "setting"
+    t.float "price"
+  end
+
   create_table "pictures", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "shelves", force: :cascade do |t|
+    t.string "place"
+    t.integer "row_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "staffs", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.string "password"
+    t.integer "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -51,6 +118,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_05_032705) do
     t.string "password"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "email"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

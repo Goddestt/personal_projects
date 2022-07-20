@@ -1,0 +1,21 @@
+<div class="container">
+  <%= image_tag(@book.cover_image , width: "20%") if !@book.cover_image.blank? %>
+
+  <%= bootstrap_form_for(@book, :url => user_book_path(@book)) do |form| %>
+    <div class="input-group mb-3">
+      <%= form.text_field :name %>
+    </div>
+    <div class="input-group mb-3">
+      <%= form.text_field :author %>
+    </div>
+    <div class="input-group mb-3">
+      <%= form.text_field :barcode %>
+    </div>
+    <div class="input-group mb-3">
+      If input is under 40, the price will automatically be 40
+      <%= form.number_field :price %>
+    </div>
+    <%= form.file_field :cover_image %>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  <% end %>
+</div>
