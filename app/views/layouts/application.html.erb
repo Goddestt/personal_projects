@@ -10,14 +10,10 @@
     <%= javascript_include_tag "application" %>
   </head>
   <body>
-    <%= link_to "Go to Book List", root_path %>
-    <% if current_user%>
-      <%= current_user.name %>
-      <%= button_to "Logout", logout_path, method: :delete %>
-    <% else %>
-      <%= link_to "Log in", login_path %>
-    <% end %>
-    <%= turbo_frame_tag "modal" %>
-    <%= yield %>
+    <div class="containter">
+      <%= render partial: "layouts/header", locals: { user: current_user} %>
+      <%= yield %>
+      <%= turbo_frame_tag "remote_modal" %>
+    </div>
   </body>
 </html>

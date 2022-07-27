@@ -23,15 +23,16 @@ class BooksController < ApplicationController
   end
 
   def show
-    @staffs = Staff.where(role: ["admin", "librarian"])
-    @book.belonger = Shelf.find_by(place: params[:book][:shelf_place])
   end
 
   def edit
+    @shelves = Shelf.all
   end
 
   def update
-    if @book.update(book_params)
+    @book.belonger = Shelf.find(params[:shelf_id])
+    @book.assign_attributes(book_params)
+    if @book.save
       redirect_to edit_book_path(@book)
     else
       flash.now[:errors] = "This is an error"
@@ -77,6 +78,6 @@ class BooksController < ApplicationController
   end
 
   def book_params
-    params.require(:book).permit(:id, :name, :author, :belonger, :barcode, :cover_image)
+    params.require(:book).permit(:id, :name, :author, :barcode, :cover_image, :description)
   end
 end

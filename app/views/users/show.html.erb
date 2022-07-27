@@ -6,13 +6,12 @@
   </p>
   <p class="text-start">
     <span>Address:</span>
-    <span> <%= @user.main_address %> </span>
+    <span> <%= @user.main_address if @user.addresses.present? %> </span>
   </p>
   <p class="text-start">
     <span>Phone Number:</span>
     <span> <%= @user.phone_number %> </span>
   </p>
-  <%= link_to "Show books", books_path(@user) %>
 </div>
 <style>
   .text-start {

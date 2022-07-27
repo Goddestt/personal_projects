@@ -1,5 +1,5 @@
-<button type="button" class="btn"> <%= link_to "New book", new_book_path, data: { turbo_frame: 'modal' } %> </button>
 <div class="container">
+  <%= button_to "New book", new_book_path, method: :get,  class: 'btn btn-primary mt-4' if (current_user.is_a? Staff) %>
   <table class="table">
     <tr class="column">
       <th>Cover</th>
@@ -18,15 +18,17 @@
             <% end %>
           </p> 
         </td>
-        <td> <%= link_to "Edit book", edit_book_path(book) %> </td>
-        <td> <%= link_to 'Delete', book_path(book),
-          data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'} %> </td>
+        <% if current_user.is_a? Staff %>
+          <td> <%= link_to "Edit book", edit_book_path(book) %> </td>
+          <td> <%= link_to 'Delete', book_path(book),
+            data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'} %> </td>
+        <% end %>
         <td> 
           <% if book.belonger_type == "Shelf" && (current_user.is_a? User)%>
-            <%= button_to "Borrow", borrow_book_path(book), method: :put %>
+            <%= button_to "Borrow", borrow_book_path(book), method: :put, class: 'btn btn-primary' %>
           <% else %>
             <% if (current_user.is_a? Staff) && current_user.able_to_return? && book.is_borrowed? %>
-              <%= link_to "Return to shelf", returning_book_book_path(book), data: { turbo_frame: 'modal' } %>
+              <%= link_to "Return to shelf", returning_book_book_path(book), data: { turbo_frame: 'modal', controller: 'turbo' } %>
             <% end %>
           <%end%>
         </td>

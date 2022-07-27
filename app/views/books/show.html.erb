@@ -10,12 +10,16 @@
     <span> <%= @book.author %> </span>
   </p>
   <p class="text-start">
-    <span>Price:</span>
-    <span> <%= @book.price %> </span>
-  </p>
-  <p class="text-start">
     <span>Barcode:</span>
     <span> <%= @book.barcode %> </span>
+  </p>
+  <p class="text-start">
+    <span>Description:</span>
+    <span> <%= @book.description %> </span>
+  </p>
+  <p class="text-start">
+    <span>Holder/Shelf: </span>
+    <span> <%= (@book.belonger.is_a? User) ? @book.belonger.name : @book.belonger.place %> </span>
   </p>
 </div>
 

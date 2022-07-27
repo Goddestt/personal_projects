@@ -1,5 +1,6 @@
 class StaffsController < ApplicationController
   before_action :set_staff, only: %i[ show edit update destroy ]
+  before_action :check_staff
 
   # GET /staffs or /staffs.json
   def index
@@ -58,13 +59,20 @@ class StaffsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_staff
-      @staff = Staff.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def staff_params
-      params.require(:staff).permit(:name, :email, :password, :role)
+  def check_staff
+    if session[:user_type] == "User"
+      redirect_to root_path
     end
+  end
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_staff
+    @staff = Staff.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def staff_params
+    params.require(:staff).permit(:name, :email, :password, :role)
+  end
 end
