@@ -3,12 +3,20 @@ Rails.application.routes.draw do
   resources :computers
   resources :staffs
   resources :shelves
-  root "users#index"
-  resources :users do
-    resources :books
+  resources :users
+  resources :books do
+    collection do
+      get "get_self_borrow_list"
+    end
+    member do
+      put "borrow"
+      get "returning_book"
+      put "update_return"
+    end
   end
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  # root "articles#index"
+  root "books#index"
+  get "/login", to: "sessions#new"
+  post "/login", to: "sessions#create"
+  delete "/logout", to: "sessions#destroy"
+  get "/information", to: "users#information"
 end

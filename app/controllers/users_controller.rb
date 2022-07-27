@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :find_user, only: %i[show edit update destroy]
+  before_action :check_staff, except: :information
 
   def index
     @users = User.all
@@ -19,11 +20,6 @@ class UsersController < ApplicationController
   end
 
   def show
-  rescue StandardError => e
-    @errors = e
-    @users = User.all
-    flash.now[:alert] = 'This user was not found'
-    render 'index'
   end
 
   def edit; end
@@ -32,7 +28,7 @@ class UsersController < ApplicationController
     if @user.update(user_params)
       redirect_to edit_user_path(@user)
     else
-      flash.now[:errors] = 'This is an error'
+      flash.now[:errors] = "This is an error"
       render :edit, status: :unprocessable_entity
     end
   end
@@ -41,13 +37,24 @@ class UsersController < ApplicationController
     redirect_to users_path if @user.destroy
   end
 
+  def information
+    @user = current_user
+    render :show
+  end
+
   private
+
+  def check_staff
+    if session[:user_type] == "User"
+      redirect_to root_path
+    end
+  end
 
   def find_user
     @user = User.find(params[:id])
   end
 
   def user_params
-    params.require(:user).permit(:id, :name, :phone_number, :images, :avatar, :address)
+    params.require(:user).permit(:id, :name, :phone_number, :avatar, :addresses_attributes, :email)
   end
 end

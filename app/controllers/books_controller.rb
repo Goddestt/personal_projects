@@ -1,30 +1,30 @@
 class BooksController < ApplicationController
   before_action :find_user
-  before_action :find_book, only: %i[show edit update destroy]
+  skip_before_action :authenticate, only: :index
+  before_action :find_book, only: %i[show edit update destroy borrow update_return]
 
   def index
-    @books = @user.books
+    @books = Book.all
   end
 
   def new
     @book = Book.new
+    @shelves = Shelf.all
   end
 
   def create
-    @book = @user.books.new(book_params)
+    @book = Book.new(book_params)
+    @book.belonger = Shelf.find_by(id: params[:book][:shelf_id])
     if @book.save
-      redirect_to user_books_url
+      redirect_to books_url
     else
       render :new, status: :unprocessable_entity
     end
   end
 
   def show
-  rescue StandardError => e
-    @errors = e
-    @users = User.all
-    flash.now[:alert] = "This user was not found"
-    render "index"
+    @staffs = Staff.where(role: ["admin", "librarian"])
+    @book.belonger = Shelf.find_by(place: params[:book][:shelf_place])
   end
 
   def edit
@@ -32,7 +32,7 @@ class BooksController < ApplicationController
 
   def update
     if @book.update(book_params)
-      redirect_to edit_user_book_path(@book)
+      redirect_to edit_book_path(@book)
     else
       flash.now[:errors] = "This is an error"
       render :edit, status: :unprocessable_entity
@@ -40,13 +40,36 @@ class BooksController < ApplicationController
   end
 
   def destroy
-    redirect_to user_books_path if @book.destroy
+    redirect_to books_path if @book.destroy
+  end
+
+  def get_self_borrow_list
+    @books = current_user.books
+    @self_borrow = true
+    render :index
+  end
+
+  def borrow
+    if @book.reload.belonger_type == "Shelf"
+      redirect_to get_self_borrow_list_books_path if @book.update(belonger: current_user, returned_date: nil)
+    end
+  end
+
+  def returning_book
+    @shelves = Shelf.all
+  end
+
+  def update_return
+    shelf = Shelf.find_by(id: params[:shelf_id])
+    if @book.reload.belonger.is_a? User
+      redirect_to root_path if @book.update(belonger: shelf, returned_date: Time.now)
+    end
   end
 
   private
 
   def find_user
-    @user = User.find(params[:user_id])
+    @user = current_user if session[:user_type] == "User"
   end
 
   def find_book
@@ -54,6 +77,6 @@ class BooksController < ApplicationController
   end
 
   def book_params
-    params.require(:book).permit(:id, :name, :price, :author, :user_id, :barcode, :cover_image)
+    params.require(:book).permit(:id, :name, :author, :belonger, :barcode, :cover_image)
   end
 end

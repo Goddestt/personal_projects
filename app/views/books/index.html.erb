@@ -1,14 +1,35 @@
-<%= @user.name %>
-<button type="button" class="btn"> <%= link_to "New book", new_user_book_path %> </button>
+<button type="button" class="btn"> <%= link_to "New book", new_book_path, data: { turbo_frame: 'modal' } %> </button>
 <div class="container">
   <table class="table">
+    <tr class="column">
+      <th>Cover</th>
+      <th>Name</th>
+      <th>Action</th>
+    </tr>
     <% @books.each do |book| %>
       <tr class="column">
-        <td><%= book.name %></td>
-        <td> <%= link_to "Show book", user_book_path(@user, book) %> </td>
-        <td> <%= link_to "Edit book", edit_user_book_path(@user, book) %> </td>
-        <td> <%= link_to 'Delete', user_book_path(@user, book),
+        <td width="200px"><%= image_tag(book.cover_image , width: "70%", alt: "Book Logo")%></td>
+        <td> 
+          <p> <%= link_to book.name, book_path(book) %> </p>
+          <p> <% if book.belonger_type == "User" %> 
+            (Borrowed)
+            <% else %>
+            (Borrowable)
+            <% end %>
+          </p> 
+        </td>
+        <td> <%= link_to "Edit book", edit_book_path(book) %> </td>
+        <td> <%= link_to 'Delete', book_path(book),
           data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'} %> </td>
+        <td> 
+          <% if book.belonger_type == "Shelf" && (current_user.is_a? User)%>
+            <%= button_to "Borrow", borrow_book_path(book), method: :put %>
+          <% else %>
+            <% if (current_user.is_a? Staff) && current_user.able_to_return? && book.is_borrowed? %>
+              <%= link_to "Return to shelf", returning_book_book_path(book), data: { turbo_frame: 'modal' } %>
+            <% end %>
+          <%end%>
+        </td>
       </tr>
     <% end %>
   </table>

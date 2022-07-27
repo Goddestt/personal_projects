@@ -1,7 +1,7 @@
 <div class="container">
-  <%= image_tag(@book.cover_image , width: "20%") if !@book.cover_image.blank? %>
+  <%= image_tag(@book.cover_image , width: "20%", alt: "Book Logo")%>
 
-  <%= bootstrap_form_for(@book, :url => user_book_path(@book)) do |form| %>
+  <%= bootstrap_form_for(@book, :url => book_path(@book)) do |form| %>
     <div class="input-group mb-3">
       <%= form.text_field :name %>
     </div>
@@ -12,10 +12,15 @@
       <%= form.text_field :barcode %>
     </div>
     <div class="input-group mb-3">
-      If input is under 40, the price will automatically be 40
-      <%= form.number_field :price %>
+      <%= f.label :belonger, { class: "form-label"} %>
+      <%= f.select :belonger, options_for_select(@shelves), { class: "form-control form-select form-select-lg mb-3", placeholder: "Choose Belonger" } %>
     </div>
-    <%= form.file_field :cover_image %>
+    
+    <div class="input-group mb-3">
+      <%= f.label :cover_image, { class: "form-label"} %>
+      <%= f.file_field :cover_image, { class: "form-control", placeholder: "Image for Book cover" } %>
+    </div>
+
     <button type="submit" class="btn btn-primary">Submit</button>
   <% end %>
 </div>
