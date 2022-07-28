@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   resources :bills
-  resources :computers
   resources :staffs
   resources :shelves
   resources :users

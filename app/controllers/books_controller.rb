@@ -4,7 +4,9 @@ class BooksController < ApplicationController
   before_action :find_book, only: %i[show edit update destroy borrow update_return]
 
   def index
-    @books = Book.all
+    @q = Book.ransack(params[:q])
+    @books = @q.result(distinct: true)
+    @link_for_search = "books"
   end
 
   def new
@@ -45,8 +47,9 @@ class BooksController < ApplicationController
   end
 
   def get_self_borrow_list
-    @books = current_user.books
-    @self_borrow = true
+    @q = current_user.books.ransack(params[:q])
+    @books = @q.result(distinct: true)
+    @link_for_search = "get_self_borrow_list"
     render :index
   end
 
