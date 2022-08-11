@@ -6,8 +6,15 @@
     <div class="input-group mb-3">
       <%= form.text_field :phone_number %>
     </div>
-    <%= form.file_field :images %>
+    <%= form.text_field :email %>
     <%= form.file_field :avatar %>
+    <%= form.text_field :password %>
+    <%= form.fields_for :address do |ff| %>
+        <%= ff.text_field :detail %>
+        <%= ff.text_field :street %>
+        <%= ff.text_field :district %>
+        <%= ff.text_field :city %>
+    <% end %>
     <button type="submit" class="btn btn-primary">Submit</button>
   <% end %>
 </div>

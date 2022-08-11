@@ -16,10 +16,15 @@
       <%= form.text_field :description %>
     </div>
 
+    <%= form.fields_for :page do |ff| %>
+        <%= ff.label :content %>
+        <%= ff.rich_text_area :content %>
+      <% end %>
+
     <div class="input-group mb-3">
       <%= form.label :belonger %>: 
-      <p> <%= (@book.belonger.is_a? User)? @book.belonger.name : @book.belonger.place %> </p>
-      <P> Change it here </p>
+      <p> <%= (@book.belonger.is_a? User)? @book.belonger.name : @book.belonger.place %></p>
+      <p> <br>Change it here </p>
       <%= select_tag :shelf_id,
                 options_from_collection_for_select(@shelves, :id, :place),
                 class: "form-control custom-select" %>

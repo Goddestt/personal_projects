@@ -14,6 +14,7 @@ class StaffsController < ApplicationController
   # GET /staffs/new
   def new
     @staff = Staff.new
+    @staff.build_address
   end
 
   # GET /staffs/1/edit

@@ -13,6 +13,13 @@
           <li class="nav-item">
             <a class="nav-link active" href="/books/get_self_borrow_list">Book Borrowed</a>
           </li>
+        <% elsif (user.is_a? Staff) && user.admin? %>
+          <li class="nav-item">
+            <a class="nav-link active" href="/users">Users</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="/staffs">Staffs</a>
+          </li>
         <% end %>
         <li class="nav-item">
             <% if user %>

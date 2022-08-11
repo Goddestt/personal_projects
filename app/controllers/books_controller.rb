@@ -1,7 +1,7 @@
 class BooksController < ApplicationController
   before_action :find_user
   skip_before_action :authenticate, only: :index
-  before_action :find_book, only: %i[show edit update destroy borrow update_return]
+  before_action :find_book, only: %i[show edit update destroy borrow update_return preview]
 
   def index
     @q = Book.ransack(params[:q])
@@ -11,6 +11,7 @@ class BooksController < ApplicationController
 
   def new
     @book = Book.new
+    @book.build_page
     @shelves = Shelf.all
   end
 
@@ -28,6 +29,7 @@ class BooksController < ApplicationController
   end
 
   def edit
+    @book.build_page if @book.page.nil?
     @shelves = Shelf.all
   end
 
@@ -63,6 +65,11 @@ class BooksController < ApplicationController
     @shelves = Shelf.all
   end
 
+  def preview
+    @pdf = @book.pdf_preview
+    send_data(@pdf, disposition: "inline", type: "application/pdf", filename: "preview")
+  end
+
   def update_return
     shelf = Shelf.find_by(id: params[:shelf_id])
     if @book.reload.belonger.is_a? User
@@ -81,6 +88,6 @@ class BooksController < ApplicationController
   end
 
   def book_params
-    params.require(:book).permit(:id, :name, :author, :barcode, :cover_image, :description)
+    params.require(:book).permit(:id, :name, :author, :barcode, :cover_image, :description, page_attributes: [:content])
   end
 end

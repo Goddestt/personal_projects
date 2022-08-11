@@ -12,7 +12,7 @@ export default class extends Controller {
     this.url = this.element.getAttribute("href")
     fetch(this.url, {
       headers: {
-        Accept: "text/vnd.turbo-stream.html"
+        Accept: ["text/vnd.turbo-stream.html", "application/pdf"]
       }
     })
       .then(r => r.text())

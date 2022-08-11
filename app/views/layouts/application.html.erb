@@ -8,10 +8,13 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
     <%= javascript_include_tag "application" %>
+    <%= wicked_pdf_stylesheet_link_tag "pdf" -%>
+    <%= wicked_pdf_javascript_include_tag "number_pages" %>
+    <meta charset='utf-8' />
   </head>
   <body>
-    <div class="containter">
-      <%= render partial: "layouts/header", locals: { user: current_user} %>
+    <%= render partial: "layouts/header", locals: { user: current_user} %>
+    <div class="containter container-sm">
       <%= yield %>
       <%= turbo_frame_tag "remote_modal" %>
     </div>

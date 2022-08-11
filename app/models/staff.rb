@@ -1,9 +1,13 @@
 class Staff < ApplicationRecord
   attr_accessor :remember_token
+
   has_secure_password
-  has_many :addresses, dependent: :destroy
+
   has_one_attached :avatar
-  accepts_nested_attributes_for :addresses, allow_destroy: true
+
+  has_one :address, dependent: :destroy
+  accepts_nested_attributes_for :address, allow_destroy: true
+
   validates :name, :email, presence: true
 
   before_create :set_role_default
@@ -11,7 +15,7 @@ class Staff < ApplicationRecord
   enum role: { admin: 0, librarian: 1, cleaner: 2 }
 
   def main_address
-    address = self.addresses.find_by(main: true)
+    address = self.address
     return "#{address.detail}, #{address.street}, #{address.district}, #{address.city}"
   end
 

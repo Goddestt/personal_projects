@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       get "get_self_borrow_list"
     end
     member do
+      get "preview"
       put "borrow"
       get "returning_book"
       put "update_return"
